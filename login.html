@@ -272,14 +272,33 @@
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
 
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i>';
 
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
+
+                // ===== GANTI VALIDASI DUMMY INI DENGAN CEK KE BACKEND/DATABASE NANTI =====
+                if (username === "" || password === "") {
+                    showNotice('Username/Email dan Password wajib diisi!');
+                    return;
+                }
+
+                // Login dianggap berhasil — simpan status & data user
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("userUsername", username);
+
                 showNotice('Login Berhasil! Selamat Datang.');
-                document.getElementById('loginForm').reset();
+
+                // Redirect ke dashboard setelah toast sempat muncul sebentar
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 800);
+
             }, 1000);
         }
 
