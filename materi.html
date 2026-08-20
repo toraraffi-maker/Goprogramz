@@ -7,6 +7,7 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Caveat for Go Logo -->
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -23,36 +24,51 @@
         .font-logo-go {
             font-family: 'OSWALD', cursive;
         }
+        .profile-icon-nav{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center pb-12">
 
-    <!-- Navigation Header -->
-    <header class="w-full bg-brand-blue text-white shadow-sm sticky top-0 z-50">
-        <div class="w-full max-w-7xl mx-auto px-4 md:px-8 py-2.5 flex items-center justify-between">
+    <header class="w-full bg-[#208cf0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
             
-            <!-- Left Nav Links -->
-            <nav class="flex items-center space-x-4 md:space-x-8 text-xs md:text-sm font-bold tracking-wider text-white">
-                <a href="index.html" class="hover:opacity-80 transition uppercase">BERANDA</a>
-                <a href="materi.html" class="hover:opacity-80 transition uppercase">MATERI</a>
-                <a href="" class="hover:opacity-80 transition uppercase">PRAKTEK</a>
+            <!-- Left Navigation Links -->
+            <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
+                <a href="index.html" onclick="showNotice('Navigasi ke Beranda')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
+                <a href="materi.html" onclick="showNotice('Navigasi ke Materi')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
+                <a href="praktek.html" onclick="showNotice('Navigasi ke Praktek')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
             </nav>
 
-            <!-- Center Logo -->
-            <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
-            <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
-        </div>
+        <!-- Brand Logo Center -->
+         <div
+        id="navLogo"
+        class="absolute left-1/2 -translate-x-1/2 flex items-center cursor-pointer transition-all duration-300"
+        onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <img
+        src="asset/log/Go-removebg-preview.png"
+        alt="GoProgramz Logo"
+        class="w-[130px] h-[42px] object-contain"
+    >
+</div>
 
-            <!-- Right Action Buttons -->
-            <div class="flex items-center space-x-2 md:space-x-3">
-                <button class="bg-white text-brand-blue px-4 md:px-5 py-1.5 rounded-full text-xs font-bold hover:bg-gray-100 transition uppercase tracking-wider shadow-sm">
-                    DAFTAR
-                </button>
-                <button class="bg-white text-brand-blue px-4 md:px-5 py-1.5 rounded-full text-xs font-bold hover:bg-gray-100 transition uppercase tracking-wider shadow-sm">
-                    LOGIN
-                </button>
-            </div>
-
+         <div class="profile-icon-nav" id="btnOpenSidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+    </svg>
+  </div>
+           
         </div>
     </header>
 
@@ -168,7 +184,155 @@
             </button>
         </div>
 
+        
+
     </main>
+    <!-- Sidebar Profil -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="profileSidebar">
+  <button class="sidebar-close" id="btnCloseSidebar" aria-label="Tutup">&times;</button>
+
+  <div class="sidebar-header">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7.5" r="4"></circle>
+        <path d="M3 21c0-5 4-8.5 9-8.5s9 3.5 9 8.5"></path>
+      </svg>
+    </div>
+    <div class="info">
+      <p id="sbUsername">Hai, Username</p>
+      <p id="sbId">ID User</p>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+    <button class="sidebar-item" data-target="profil-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      <a href="dashboard.html">Profil Saya</a>
+    </button>
+    <button class="sidebar-item" data-target="pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Pengaturan
+    </button>
+    <button class="sidebar-item" data-target="koleksi-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Koleksi Saya
+    </button>
+    <button class="danger" id="btnOpenDeleteAccount">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+      </svg>
+      Hapus Akun
+    </button>
+  </div>
+
+  <div class="sidebar-logout-wrap">
+    <button id="btnLogout">Log out</button>
+  </div>
+</div>
+<!-- Toast Notifikasi -->
+<div class="toast-notif" id="toastNotif">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M9 12l2 2 4-4"></path>
+  </svg>
+  <span id="toastNotifText">Berhasil logout</span>
+</div>
+
+<!-- Modal Konfirmasi Hapus Akun -->
+<div class="confirm-overlay" id="deleteAccountOverlay">
+  <div class="confirm-modal">
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+      </svg>
+    </div>
+    <h3>Hapus Akun?</h3>
+    <p>Semua data akun kamu akan dihapus permanen dari perangkat ini dan tidak bisa dikembalikan.</p>
+    <div class="confirm-btn-row">
+      <button id="btnCancelDelete">Batal</button>
+      <button id="btnConfirmDelete">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+    <script>
+        /* =========== 6. SIDEBAR PROFIL =========== */
+  function openSidebar(){
+    document.body.classList.add("sidebar-open");
+  }
+
+  function closeSidebar(){
+    document.body.classList.remove("sidebar-open");
+  }
+
+  document.getElementById("btnOpenSidebar").addEventListener("click", openSidebar);
+  document.getElementById("btnCloseSidebar").addEventListener("click", closeSidebar);
+  document.getElementById("sidebarOverlay").addEventListener("click", closeSidebar);
+
+  // Menu di dalam sidebar (Profil Saya, Pengaturan, Koleksi Saya)
+  // Sekarang masih placeholder — ganti dengan redirect halaman terpisah
+  // kalau halamannya sudah dibuat, contoh: window.location.href = "profil.html";
+  document.querySelectorAll(".sidebar-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      console.log("Menu diklik:", target);
+      // window.location.href = target + ".html";
+    });
+  });
+
+  // Tombol Log out: hapus status login lalu kembali munculkan popup login
+  document.getElementById("btnLogout").addEventListener("click", () => {
+    localStorage.removeItem("isLoggedIn");
+    closeSidebar();
+    showToast("Berhasil logout. Sampai jumpa lagi!");
+    lockDashboard();
+  });
+
+  /* =========== 8. HAPUS AKUN =========== */
+  document.getElementById("btnOpenDeleteAccount").addEventListener("click", () => {
+    closeSidebar();
+    document.getElementById("deleteAccountOverlay").classList.add("show");
+  });
+
+  document.getElementById("btnCancelDelete").addEventListener("click", () => {
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+  });
+
+  document.getElementById("btnConfirmDelete").addEventListener("click", () => {
+    // Hapus semua data akun dari perangkat ini
+    localStorage.removeItem("userFullname");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userUsername");
+    localStorage.removeItem("userHeadline");
+    localStorage.removeItem("userPassword");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("accountRegistered");
+
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+
+    // Arahkan ke halaman daftar karena akun sudah tidak ada
+    window.location.href = DAFTAR_PAGE_URL;
+  });
+
+
+    </script>
 
 </body>
 </html>

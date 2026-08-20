@@ -92,22 +92,22 @@
 </head>
 <body class="bg-slate-900 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- TOP NAVIGATION BAR -->
+    <!-- TOP NAVIGATION BAR --
     <header class="w-full bg-[#208ef0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
-            <!-- Left Navigation Links -->
+            <!-- Left Navigation Links --
             <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
                 <a href="index.html" onclick="showNotice('Navigasi ke BERANDA')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
                 <a href="#materi" onclick="showNotice('Navigasi ke MATERI')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
                 <a href="#praktek" onclick="showNotice('Navigasi ke PRAKTEK')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
             </nav>
 
-            <!-- Center Logo -->
+            <!-- Center Logo --
             <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
             <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
         </div>
-            <!-- Right Login Button -->
+            <!-- Right Login Button --
             <div>
                 <button 
                     type="button" 
@@ -167,6 +167,27 @@
                     >
                 </div>
 
+                <!-- Headline Select -->
+                <div class="relative">
+                    <select 
+                        id="headlineInput" 
+                        required 
+                        class="w-full px-4 py-2 custom-input text-slate-950 font-semibold text-base tracking-normal appearance-none cursor-pointer"
+                    >
+                        <option value="" disabled selected>Pilih Headline Kamu</option>
+                        <option value="UI/UX Designer">UI/UX Designer</option>
+                        <option value="Frontend Developer">Frontend Developer</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Fullstack Developer">Fullstack Developer</option>
+                        <option value="Mobile Developer">Mobile Developer</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="Data Scientist">Data Scientist</option>
+                        <option value="QA/Software Tester">QA/Software Tester</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-700 text-xs pointer-events-none"></i>
+                </div>
+
                 <!-- Password Input -->
                 <div class="relative">
                     <input 
@@ -174,8 +195,16 @@
                         id="passwordInput" 
                         required 
                         placeholder="Password" 
-                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal pr-10"
                     >
+                    <button 
+                        type="button" 
+                        onclick="togglePasswordVisibility('passwordInput', 'eyeIconPassword')" 
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-900 focus:outline-none p-1"
+                        title="Tampilkan / Sembunyikan Password"
+                    >
+                        <i id="eyeIconPassword" class="fa-regular fa-eye text-sm"></i>
+                    </button>
                 </div>
 
                 <!-- Password Confirmation Input -->
@@ -185,8 +214,16 @@
                         id="confirmPasswordInput" 
                         required 
                         placeholder="Konfirmasi Password" 
-                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal pr-10"
                     >
+                    <button 
+                        type="button" 
+                        onclick="togglePasswordVisibility('confirmPasswordInput', 'eyeIconConfirm')" 
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-900 focus:outline-none p-1"
+                        title="Tampilkan / Sembunyikan Password"
+                    >
+                        <i id="eyeIconConfirm" class="fa-regular fa-eye text-sm"></i>
+                    </button>
                 </div>
 
                 <!-- Register Submit Button -->
@@ -221,7 +258,50 @@
         <span id="toastText" class="text-sm font-semibold"></span>
     </div>
 
+    <!-- MODAL PERINGATAN: SUDAH PUNYA AKUN -->
+    <div id="accountExistsModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
+            <div class="w-14 h-14 bg-sky-100 text-[#2094f3] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Kamu Sudah Punya Akun</h3>
+            <p class="text-sm text-slate-600 mb-5">Sepertinya kamu sudah pernah mendaftar di perangkat ini. Silakan login untuk melanjutkan.</p>
+            <div class="flex flex-col gap-2">
+                <button 
+                    type="button" 
+                    id="btnModalGoLogin"
+                    class="w-full py-2.5 bg-[#2094f3] hover:bg-[#1976d2] text-white rounded-full font-bold text-sm transition-colors shadow-sm"
+                >
+                    Login Sekarang
+                </button>
+                <button 
+                    type="button" 
+                    id="btnModalStayRegister"
+                    class="w-full py-2 text-slate-500 hover:text-slate-700 font-semibold text-xs transition-colors"
+                >
+                    Tetap daftar akun baru
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Toggle Password Visibility (dipakai untuk field Password & Konfirmasi Password)
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
         // Handle Register Submission
         function handleRegisterSubmit(event) {
             event.preventDefault();
@@ -229,6 +309,7 @@
             const fullname = document.getElementById('fullnameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
             const username = document.getElementById('usernameInput').value.trim();
+            const headline = document.getElementById('headlineInput').value;
             const password = document.getElementById('passwordInput').value;
             const confirmPassword = document.getElementById('confirmPasswordInput').value;
 
@@ -252,6 +333,15 @@
                 localStorage.setItem("userFullname", fullname);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("userUsername", username);
+                localStorage.setItem("userHeadline", headline);
+                // NOTE: password disimpan polos di localStorage hanya untuk keperluan
+                // demo/validasi login sisi client. JANGAN dipakai di production —
+                // nanti password harus di-hash & divalidasi di backend/database.
+                localStorage.setItem("userPassword", password);
+
+                // tandai perangkat ini sudah pernah dipakai untuk daftar
+                // (flag ini TIDAK dihapus saat logout, beda dengan isLoggedIn)
+                localStorage.setItem("accountRegistered", "true");
 
                 // pendaftaran dianggap berhasil -> langsung anggap sudah login
                 localStorage.setItem("isLoggedIn", "true");
@@ -281,6 +371,30 @@
                 toast.classList.remove('flex');
             }, 3000);
         }
+
+        /* =========== CEK APAKAH PERANGKAT INI SUDAH PERNAH DAFTAR =========== */
+        function checkAccountExists() {
+            const alreadyRegistered = localStorage.getItem("accountRegistered") === "true";
+            if (alreadyRegistered) {
+                const modal = document.getElementById('accountExistsModal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkAccountExists);
+
+        // Tombol "Login Sekarang" di modal -> arahkan ke halaman login
+        document.getElementById('btnModalGoLogin').addEventListener('click', () => {
+            window.location.href = "login.html";
+        });
+
+        // Tombol "Tetap daftar akun baru" -> tutup modal, biarkan user lanjut isi form
+        document.getElementById('btnModalStayRegister').addEventListener('click', () => {
+            const modal = document.getElementById('accountExistsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
     </script>
 </body>
 </html>

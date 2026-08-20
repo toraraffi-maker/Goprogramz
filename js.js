@@ -192,4 +192,65 @@
                 }
             }
         }
+
+        /* =========== 6. SIDEBAR PROFIL =========== */
+  function openSidebar(){
+    document.body.classList.add("sidebar-open");
+  }
+
+  function closeSidebar(){
+    document.body.classList.remove("sidebar-open");
+  }
+
+  document.getElementById("btnOpenSidebar").addEventListener("click", openSidebar);
+  document.getElementById("btnCloseSidebar").addEventListener("click", closeSidebar);
+  document.getElementById("sidebarOverlay").addEventListener("click", closeSidebar);
+
+  // Menu di dalam sidebar (Profil Saya, Pengaturan, Koleksi Saya)
+  // Sekarang masih placeholder — ganti dengan redirect halaman terpisah
+  // kalau halamannya sudah dibuat, contoh: window.location.href = "profil.html";
+  document.querySelectorAll(".sidebar-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      console.log("Menu diklik:", target);
+      // window.location.href = target + ".html";
+    });
+  });
+
+  // Tombol Log out: hapus status login lalu kembali munculkan popup login
+  document.getElementById("btnLogout").addEventListener("click", () => {
+    localStorage.removeItem("isLoggedIn");
+    closeSidebar();
+    showToast("Berhasil logout. Sampai jumpa lagi!");
+    lockDashboard();
+  });
+
+  /* =========== 8. HAPUS AKUN =========== */
+  document.getElementById("btnOpenDeleteAccount").addEventListener("click", () => {
+    closeSidebar();
+    document.getElementById("deleteAccountOverlay").classList.add("show");
+  });
+
+  document.getElementById("btnCancelDelete").addEventListener("click", () => {
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+  });
+
+  document.getElementById("btnConfirmDelete").addEventListener("click", () => {
+    // Hapus semua data akun dari perangkat ini
+    localStorage.removeItem("userFullname");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userUsername");
+    localStorage.removeItem("userHeadline");
+    localStorage.removeItem("userPassword");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("accountRegistered");
+
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+
+    // Arahkan ke halaman daftar karena akun sudah tidak ada
+    window.location.href = DAFTAR_PAGE_URL;
+  });
+
+  
    

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoProgramz - Multi Language Code Runner</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Caveat for Go Logo -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="praktek.css">
+</head>
+<body>
+
+    <header class="w-full bg-[#208cf0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Left Navigation Links -->
+            <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
+                <a href="index.html" onclick="showNotice('Navigasi ke Beranda')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
+                <a href="materi.html" onclick="showNotice('Navigasi ke Materi')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
+                <a href="#praktek" onclick="showNotice('Navigasi ke Praktek')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
+            </nav>
+
+        <!-- Brand Logo Center -->
+         <div
+        id="navLogo"
+        class="absolute left-1/2 -translate-x-1/2 flex items-center cursor-pointer transition-all duration-300"
+        onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <img
+        src="asset/log/Go-removebg-preview.png"
+        alt="GoProgramz Logo"
+        class="w-[130px] h-[42px] object-contain"
+    >
+</div>
+
+         <div class="profile-icon-nav" id="btnOpenSidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+    </svg>
+  </div>
+           
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="problem-section">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24" style="width:28px;height:28px;"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="#0d47a1" stroke-width="2.5"/><path d="M7 8h10M7 12h10M7 16h6" stroke="#0d47a1" stroke-width="2.5" stroke-linecap="round"/></svg>
+                SOAL LATIHAN
+            </h2>
+            <p id="soalDeskripsi">Pilih bahasa pemrograman dan soal untuk mulai berlatih!</p>
+            <div id="soalContoh" style="margin-top: 15px; padding: 15px; background-color: white; border-radius: 4px; display: none;">
+                <strong>Contoh Output yang Diharapkan:</strong>
+                <pre id="soalOutput" style="margin-top: 10px; background-color: #f5f5f5; padding: 10px; border-radius: 4px;"></pre>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Progress Level</span>
+                    <span id="progressText">0/6 selesai</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="progress-bar" style="flex-grow: 1;">
+                        <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+                    </div>
+                    <button onclick="resetProgress()" style="background: none; border: 1px solid #ef5350; color: #ef5350; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 4px;">
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M20 12a8 8 0 1 1-8-8" fill="none" stroke="#ef5350" stroke-width="2.5" stroke-linecap="round"/><path d="M20 4v8h-8" fill="none" stroke="#ef5350" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="soal-nav" id="soalNav"></div>
+        </section>
+
+        <aside class="hint-section" id="hintSection">
+            <div class="hint-main-title">CARA MENGGUNAKAN:</div>
+            
+            <div class="hint-grid">
+                <div class="hint-item">
+                    <div class="hint-icon">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M6 21h12M12 17v4" stroke="#01579b" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="hint-text">
+                        <h4>1. PILIH BAHASA</h4>
+                        <p>Pilih bahasa pemrograman yang mau kamu pelajari dari menu dropdown.</p>
+                    </div>
+                </div>
+                <div class="hint-item">
+                    <div class="hint-icon">
+                        <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M4 22v-7" stroke="#01579b" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="hint-text">
+                        <h4>2. SELESAIKAN LEVEL</h4>
+                        <p>Kerjain soal dari yang mudah (Easy) sampai yang susah (Hard) secara urut.</p>
+                    </div>
+                </div>
+                <div class="hint-item">
+                    <div class="hint-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="#01579b" stroke-width="2.5"/></svg>
+                    </div>
+                    <div class="hint-text">
+                        <h4>3. BUKA GEMBOK</h4>
+                        <p>Setiap soal yang berhasil kamu selesain bakal buka kunci soal berikutnya!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="celebration-wrapper">
+                <div class="default-state" id="defaultState">
+                    <div class="default-state-icon">
+                        <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M4 22v-7" stroke="#01579b" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <h3>Ayo Mulai Latihan!</h3>
+                    <p>Selesain semua 6 soal untuk buka achievement keren di sini!</p>
+                </div>
+
+                <div class="celebration-content" id="celebrationContent">
+                    <div class="celebration-icon">
+                        <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M4 22h16" stroke="#01579b" stroke-width="2.5" stroke-linecap="round"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" fill="none" stroke="#01579b" stroke-width="2.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" fill="none" stroke="#01579b" stroke-width="2.5"/></svg>
+                    </div>
+                    <h2 class="celebration-title">Wih Mantap!</h2>
+                    <p class="celebration-message">
+                        Kamu baru aja ngelewatin semua soal <strong id="completedLanguage">Python</strong>!<br>
+                        Keren banget! Terus belajar ya, jangan berhenti di sini!
+                    </p>
+                    <div class="celebration-stats">
+                        <strong>📊 Statistik Pencapaian</strong>
+                        <span id="completionStats">6/6 Soal Selesai</span>
+                    </div>
+                    <div class="achievement-badge">⭐ MASTER CODER</div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <section class="editor-output-container">
+        <div class="panel code-editor-panel">
+            <div class="language-selector">
+                <label for="language">Bahasa:</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="php">PHP</option>
+                    <option value="html">HTML/CSS/JS</option>
+                    <option value="cpp">C++ (Simulasi)</option>
+                    <option value="java">Java (Simulasi)</option>
+                </select>
+            </div>
+            <div class="panel-header">
+                <div class="panel-header-left">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;"><polyline points="16 18 22 12 16 6" fill="none" stroke="#0288d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="8 6 2 12 8 18" fill="none" stroke="#0288d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Kode
+                </div>
+                <div class="action-group">
+                    <button class="btn check-btn" onclick="checkAnswer()">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Cek Jawaban
+                    </button>
+                    <button class="btn run-btn" id="runBtn" onclick="runCode()">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="white"/></svg>
+                        Jalankan
+                    </button>
+                    <button class="btn reset-btn" onclick="resetCode()">
+                        <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8" fill="none" stroke="#0288d1" stroke-width="2.5" stroke-linecap="round"/><path d="M20 4v8h-8" fill="none" stroke="#0288d1" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+            <textarea id="codeArea" class="code-editor" spellcheck="false"></textarea>
+        </div>
+
+        <div class="panel output-panel">
+            <div class="panel-header">Output</div>
+            <iframe id="outputIframe" class="output-iframe"></iframe>
+            <div class="panel-body" id="outputArea">
+                <div style="color: #777; font-style: italic;">Tekan tombol "Jalankan" untuk melihat hasil...</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="lockModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" fill="none" stroke="#0d47a1" stroke-width="2.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="#0d47a1" stroke-width="2.5"/></svg>
+            </div>
+            <div class="modal-title">Eits, Belum Bisa!</div>
+            <div class="modal-message" id="modalMessage">
+                Kamu harus nyelesain soal sebelumnya dulu nih.
+            </div>
+            <button class="modal-btn" onclick="closeModal()">Oke, Mengerti!</button>
+        </div>
+    </div>
+     <!-- Sidebar Profil -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="profileSidebar">
+  <button class="sidebar-close" id="btnCloseSidebar" aria-label="Tutup">&times;</button>
+
+  <div class="sidebar-header">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7.5" r="4"></circle>
+        <path d="M3 21c0-5 4-8.5 9-8.5s9 3.5 9 8.5"></path>
+      </svg>
+    </div>
+    <div class="info">
+      <p id="sbUsername">Hai, Username</p>
+      <p id="sbId">ID User</p>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+    <button class="sidebar-item" data-target="profil-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      <a href="dashboard.html">Profil Saya</a>
+    </button>
+    <button class="sidebar-item" data-target="pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Pengaturan
+    </button>
+    <button class="sidebar-item" data-target="koleksi-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Koleksi Saya
+    </button>
+    <button class="danger" id="btnOpenDeleteAccount">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+      </svg>
+      Hapus Akun
+    </button>
+  </div>
+
+  <div class="sidebar-logout-wrap">
+    <button id="btnLogout">Log out</button>
+  </div>
+</div>
+<!-- Toast Notifikasi -->
+<div class="toast-notif" id="toastNotif">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M9 12l2 2 4-4"></path>
+  </svg>
+  <span id="toastNotifText">Berhasil logout</span>
+</div>
+
+<!-- Modal Konfirmasi Hapus Akun -->
+<div class="confirm-overlay" id="deleteAccountOverlay">
+  <div class="confirm-modal">
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+      </svg>
+    </div>
+    <h3>Hapus Akun?</h3>
+    <p>Semua data akun kamu akan dihapus permanen dari perangkat ini dan tidak bisa dikembalikan.</p>
+    <div class="confirm-btn-row">
+      <button id="btnCancelDelete">Batal</button>
+      <button id="btnConfirmDelete">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+    <script >
+        const soalDatabase = {
+            python: [
+                { id: 1, title: "Hello World", difficulty: "easy", description: "Tampilin teks 'Hello, World!' ke layar pakai print().", template: "# tuliskan kode mu di sini\n", expectedOutput: "Hello, World!", hint: "Coba tulis: print('Hello, World!') - jangan lupa tanda kutipnya!", validation: (o, c) => o.trim() === "Hello, World!" },
+                { id: 2, title: "Penjumlahan", difficulty: "easy", description: "Bikin variabel a = 10 dan b = 20, terus tampilin hasil penjumlahannya.", template: "# tuliskan kode mu di sini\n", expectedOutput: "30", hint: "Pake: a = 10, b = 20, terus print(a + b)", validation: (o, c) => o.trim() === "30" },
+                { id: 3, title: "Deret Angka", difficulty: "medium", description: "Pake loop for sama range() buat tampilin angka 1 sampai 5, tiap angka di baris baru.", template: "# tuliskan kode mu di sini\n", expectedOutput: "1\n2\n3\n4\n5", hint: "Coba: for i in range(1, 6): print(i)", validation: (o, c) => o.trim() === "1\n2\n3\n4\n5" },
+                { id: 4, title: "Faktorial", difficulty: "medium", description: "Hitung faktorial 5 (5! = 5×4×3×2×1 = 120) pake loop, terus tampilin hasilnya.", template: "# tuliskan kode mu di sini\n", expectedOutput: "120", hint: "Bikin variabel hasil = 1, terus loop dari 1 sampai 5 dan kalikan terus ke variabel hasil.", validation: (o, c) => o.trim() === "120" },
+                { id: 5, title: "Palindrome", difficulty: "hard", description: "Cek apakah 'katak' itu palindrome pake slicing [::-1]. Tampilin 'True'.", template: "# tuliskan kode mu di sini\n", expectedOutput: "True", hint: "Bikin teks = 'katak', terus print(teks == teks[::-1])", validation: (o, c) => o.trim() === "True" },
+                { id: 6, title: "Fibonacci", difficulty: "hard", description: "Tampilin 7 angka pertama Fibonacci (0, 1, 1, 2, 3, 5, 8) pake loop while atau for.", template: "# tuliskan kode mu di sini\n", expectedOutput: "0\n1\n1\n2\n3\n5\n8", hint: "Pake dua variabel a, b = 0, 1. Di dalam loop, print(a) terus update a, b = b, a+b", validation: (o, c) => o.trim() === "0\n1\n1\n2\n3\n5\n8" }
+            ],
+            javascript: [
+                { id: 1, title: "Hello World", difficulty: "easy", description: "Tampilin 'Hello, World!' di console pake console.log().", template: "// tuliskan kode mu di sini\n", expectedOutput: "Hello, World!", hint: "Tulis: console.log('Hello, World!');", validation: (o, c) => o.trim() === "Hello, World!" },
+                { id: 2, title: "Perkalian", difficulty: "easy", description: "Bikin variabel x = 12 dan y = 8 pake let, terus tampilin hasil kalinya.", template: "// tuliskan kode mu di sini\n", expectedOutput: "96", hint: "Pake: let x = 12; let y = 8; console.log(x * y);", validation: (o, c) => o.trim() === "96" },
+                { id: 3, title: "Array Iteration", difficulty: "medium", description: "Bikin array [5, 10, 15] terus tampilin tiap elemennya pake loop for atau forEach.", template: "// tuliskan kode mu di sini\n", expectedOutput: "5\n10\n15", hint: "Pake: const arr = [5, 10, 15]; arr.forEach(item => console.log(item));", validation: (o, c) => o.trim() === "5\n10\n15" },
+                { id: 4, title: "FizzBuzz Mini", difficulty: "medium", description: "Tampilin angka 1-5. Kalau angka habis dibagi 3, tampilin 'Fizz' ganti angkanya.", template: "// tuliskan kode mu di sini\n", expectedOutput: "1\n2\nFizz\n4\n5", hint: "Loop 1-5. Di dalamnya, if (i % 3 === 0) console.log('Fizz') else console.log(i)", validation: (o, c) => o.trim() === "1\n2\nFizz\n4\n5" },
+                { id: 5, title: "Reverse String", difficulty: "hard", description: "Balik string 'GoProgramz' pake method split(), reverse(), dan join().", template: "// tuliskan kode mu di sini\n", expectedOutput: "zmarporP oG", hint: "Pake: 'GoProgramz'.split('').reverse().join('')", validation: (o, c) => o.trim() === "zmarporP oG" },
+                { id: 6, title: "Prime Checker", difficulty: "hard", description: "Bikin fungsi isPrime() buat cek apakah 17 itu bilangan prima. Tampilin 'true'.", template: "// tuliskan kode mu di sini\n", expectedOutput: "true", hint: "Loop dari 2 sampai Math.sqrt(17). Kalau 17 % i === 0, return false. Kalau nggak, return true.", validation: (o, c) => o.trim() === "true" }
+            ],
+            php: [
+                { id: 1, title: "Hello World", difficulty: "easy", description: "Tampilin 'Hello, World!' pake echo di dalam tag <?php ?>.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "Hello, World!", hint: "Tulis: echo 'Hello, World!';", validation: (o, c) => c.includes("echo") && c.includes("Hello, World!") },
+                { id: 2, title: "Variabel & Tambah", difficulty: "easy", description: "Bikin variabel $a = 15 dan $b = 25, terus tampilin hasil penjumlahannya pake echo.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "40", hint: "Pake: $a = 15; $b = 25; echo $a + $b;", validation: (o, c) => c.includes("$a") && c.includes("$b") && c.includes("echo") },
+                { id: 3, title: "Loop Array", difficulty: "medium", description: "Bikin array [2, 4, 6] terus tampilin tiap elemen di baris baru pake foreach.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "2\n4\n6", hint: "Pake: foreach ($arr as $item) { echo $item; }", validation: (o, c) => c.includes("foreach") && c.includes("echo") },
+                { id: 4, title: "Fungsi Sapaan", difficulty: "medium", description: "Bikin function sapa($nama) yang return 'Halo ' . $nama. Panggil pake 'Budi'.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "Halo Budi", hint: "function sapa($nama) { return 'Halo ' . $nama; } echo sapa('Budi');", validation: (o, c) => c.includes("function") && c.includes("return") },
+                { id: 5, title: "Genap atau Ganjil", difficulty: "hard", description: "Cek apakah 10 genap atau ganjil pake operator modulus (%). Tampilin 'Genap' atau 'Ganjil'.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "Genap", hint: "Pake if (10 % 2 == 0) { echo 'Genap'; }", validation: (o, c) => c.includes("%") && (c.includes("Genap") || c.includes("Ganjil")) },
+                { id: 6, title: "Array Asosiatif", difficulty: "hard", description: "Bikin array asosiatif dengan key 'kota' => 'Jakarta'. Tampilin nilainya.", template: "<?php\n// tuliskan kode mu di sini\n?>", expectedOutput: "Jakarta", hint: "Pake: $data = ['kota' => 'Jakarta']; echo $data['kota'];", validation: (o, c) => c.includes("=>") && c.includes("echo") }
+            ],
+            html: [
+                { id: 1, title: "Heading", difficulty: "easy", description: "Bikin tag <h1> yang isinya teks 'Selamat Datang' di dalam body HTML.", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Selamat Datang", hint: "Tulis: <h1>Selamat Datang</h1>", validation: (o, c) => c.includes("<h1>") && c.includes("Selamat Datang") },
+                { id: 2, title: "Link", difficulty: "easy", description: "Bikin paragraf <p> dengan teks 'Kunjungi Google' dan tag <a> ke https://google.com", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Kunjungi Google", hint: "Pake: <p>Kunjungi <a href='https://google.com'>Google</a></p>", validation: (o, c) => c.includes("<a") && c.includes("href") },
+                { id: 3, title: "List", difficulty: "medium", description: "Bikin unordered list <ul> dengan 3 item <li>: Nasi, Mie, Roti", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Nasi", hint: "Pake tag <ul> di luar, dan <li>Nasi</li>, <li>Mie</li>, <li>Roti</li> di dalamnya.", validation: (o, c) => c.includes("<ul>") && c.includes("<li>") },
+                { id: 4, title: "Form", difficulty: "medium", description: "Bikin tag <form> dengan <input type='text'> dan <button> yang tulisannya 'Kirim'", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Kirim", hint: "Pake: <form><input type='text'><button>Kirim</button></form>", validation: (o, c) => c.includes("<form>") && c.includes("<button>") },
+                { id: 5, title: "Tabel", difficulty: "hard", description: "Bikin <table> dengan <tr> dan <td> buat tampilin data: Nama 'Budi', Umur '20'", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Budi", hint: "Pake struktur: <table><tr><td>Budi</td><td>20</td></tr></table>", validation: (o, c) => c.includes("<table>") && c.includes("<td>") },
+                { id: 6, title: "Alert Button", difficulty: "hard", description: "Bikin <button> dengan onclick=\"alert('Halo!')\" yang muncul popup pas diklik.", template: "<!-- tuliskan kode mu di sini -->\n", expectedOutput: "Halo!", hint: "Tulis: <button onclick=\"alert('Halo!')\">Klik</button>", validation: (o, c) => c.includes('alert') && c.includes('onclick') }
+            ],
+            cpp: [
+                { id: 1, title: "Hello World", difficulty: "easy", description: "Tampilin 'Hello, World!' pake cout << di dalam fungsi main().", template: "// tuliskan kode mu di sini\n", expectedOutput: "Hello, World!", hint: "Pake: cout << \"Hello, World!\" << endl;", validation: (o, c) => c.includes("cout") && c.includes("Hello, World!") },
+                { id: 2, title: "Variabel", difficulty: "easy", description: "Deklarasiin int umur = 20 terus tampilin nilainya pake cout << umur.", template: "// tuliskan kode mu di sini\n", expectedOutput: "20", hint: "Tulis: int umur = 20; cout << umur << endl;", validation: (o, c) => c.includes("int") && c.includes("cout") },
+                { id: 3, title: "Loop", difficulty: "medium", description: "Pake loop for buat tampilin angka 1, 2, 3 di baris baru pake cout dan endl.", template: "// tuliskan kode mu di sini\n", expectedOutput: "1\n2\n3", hint: "Pake: for(int i=1; i<=3; i++) { cout << i << endl; }", validation: (o, c) => c.includes("for") && c.includes("cout") },
+                { id: 4, title: "Function", difficulty: "medium", description: "Bikin fungsi int tambah(int a, int b) yang return a+b. Panggil tambah(5,3).", template: "// tuliskan kode mu di sini\n", expectedOutput: "8", hint: "Bikin fungsi di atas main, terus di main tulis: cout << tambah(5, 3) << endl;", validation: (o, c) => c.includes("int tambah") && c.includes("return") },
+                { id: 5, title: "Array", difficulty: "hard", description: "Bikin array int arr[] = {10, 20, 30} terus tampilin elemen pertama arr[0].", template: "// tuliskan kode mu di sini\n", expectedOutput: "10", hint: "Tulis: int arr[] = {10, 20, 30}; cout << arr[0] << endl;", validation: (o, c) => c.includes("int arr[]") && c.includes("cout") },
+                { id: 6, title: "Class", difficulty: "hard", description: "Bikin class Hewan dengan method suara() yang cout << 'Guk'. Bikin object dan panggil.", template: "// tuliskan kode mu di sini\n", expectedOutput: "Guk", hint: "class Hewan { public: void suara() { cout << \"Guk\"; } }; Terus di main: Hewan anjing; anjing.suara();", validation: (o, c) => c.includes("class") && c.includes("cout") }
+            ],
+            java: [
+                { id: 1, title: "Hello World", difficulty: "easy", description: "Tampilin 'Hello, World!' pake System.out.println() di dalam method main.", template: "// tuliskan kode mu di sini\n", expectedOutput: "Hello, World!", hint: "Tulis: System.out.println(\"Hello, World!\");", validation: (o, c) => c.includes("System.out.println") && c.includes("Hello, World!") },
+                { id: 2, title: "Variabel", difficulty: "easy", description: "Deklarasiin int nilai = 100 terus tampilin pake System.out.println(nilai).", template: "// tuliskan kode mu di sini\n", expectedOutput: "100", hint: "Tulis: int nilai = 100; System.out.println(nilai);", validation: (o, c) => c.includes("int") && c.includes("System.out.println") },
+                { id: 3, title: "Loop", difficulty: "medium", description: "Pake for loop buat tampilin angka 1, 2, 3 di baris baru pake System.out.println().", template: "// tuliskan kode mu di sini\n", expectedOutput: "1\n2\n3", hint: "Pake: for(int i=1; i<=3; i++) { System.out.println(i); }", validation: (o, c) => c.includes("for") && c.includes("System.out.println") },
+                { id: 4, title: "Method", difficulty: "medium", description: "Bikin static method int kali(int a, int b) yang return a*b. Panggil kali(4,5).", template: "// tuliskan kode mu di sini\n", expectedOutput: "20", hint: "Bikin method di dalam class, terus di main panggil: System.out.println(kali(4, 5));", validation: (o, c) => c.includes("static") && c.includes("return") },
+                { id: 5, title: "Array", difficulty: "hard", description: "Bikin array int[] arr = {7, 8, 9} terus tampilin elemen terakhir arr[2].", template: "// tuliskan kode mu di sini\n", expectedOutput: "9", hint: "Tulis: int[] arr = {7, 8, 9}; System.out.println(arr[2]);", validation: (o, c) => c.includes("int[]") && c.includes("System.out.println") },
+                { id: 6, title: "OOP", difficulty: "hard", description: "Bikin class Mobil dengan method berjalan() yang System.out.println('Vroom').", template: "// tuliskan kode mu di sini\n", expectedOutput: "Vroom", hint: "class Mobil { void berjalan() { System.out.println(\"Vroom\"); } } Terus di main: new Mobil().berjalan();", validation: (o, c) => c.includes("class") && c.includes("System.out.println") }
+            ]
+        };
+
+        let currentLanguage = 'python';
+        let currentSoalIndex = 0;
+        let pyodide = null;
+        let pyodideLoading = false;
+        let pyodideLoadFailed = false;
+
+        function loadProgress() {
+            const saved = localStorage.getItem('goprogramz_progress');
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveProgress() {
+            localStorage.setItem('goprogramz_progress', JSON.stringify(progressData));
+        }
+
+        function saveCurrentCode() {
+            const code = document.getElementById('codeArea').value;
+            localStorage.setItem(`goprogramz_code_${currentLanguage}_${currentSoalIndex}`, code);
+        }
+
+        function loadCurrentCode() {
+            const savedCode = localStorage.getItem(`goprogramz_code_${currentLanguage}_${currentSoalIndex}`);
+            if (savedCode) {
+                document.getElementById('codeArea').value = savedCode;
+            } else {
+                document.getElementById('codeArea').value = soalDatabase[currentLanguage][currentSoalIndex].template;
+            }
+        }
+
+        let progressData = loadProgress();
+
+        if (!progressData[currentLanguage]) {
+            progressData[currentLanguage] = new Array(soalDatabase[currentLanguage].length).fill(false);
+            saveProgress();
+        }
+        
+        document.getElementById('codeArea').addEventListener('input', saveCurrentCode);
+
+        loadSoalNav('python');
+        selectSoal(0);
+        checkAllCompleted();
+
+        function getCompletedCount(language) {
+            if (!progressData[language]) return 0;
+            return progressData[language].filter(s => s).length;
+        }
+
+        function isSoalUnlocked(language, index) {
+            if (index === 0) return true;
+            if (!progressData[language]) return false;
+            return progressData[language][index - 1] === true;
+        }
+
+        function checkAllCompleted() {
+            const completed = getCompletedCount(currentLanguage);
+            const total = soalDatabase[currentLanguage].length;
+            const defaultState = document.getElementById('defaultState');
+            const celebrationContent = document.getElementById('celebrationContent');
+            const hintSection = document.getElementById('hintSection');
+
+            if (completed === total) {
+                defaultState.style.display = 'none';
+                celebrationContent.classList.add('active');
+                
+                document.getElementById('completedLanguage').textContent = 
+                    currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1);
+                document.getElementById('completionStats').textContent = 
+                    `${completed}/${total} Soal Selesai`;
+                
+                createConfetti();
+            } else {
+                defaultState.style.display = 'block';
+                celebrationContent.classList.remove('active');
+                
+                const existingConfetti = hintSection.querySelectorAll('.confetti');
+                existingConfetti.forEach(c => c.remove());
+            }
+        }
+
+        function createConfetti() {
+            const section = document.getElementById('hintSection');
+            const colors = ['#ffeb3b', '#4fc3f7', '#66bb6a', '#ff9800', '#e91e63'];
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '50%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.opacity = Math.random();
+                    section.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        function loadSoalNav(language) {
+            const soalNav = document.getElementById('soalNav');
+            soalNav.innerHTML = '';
+            
+            soalDatabase[language].forEach((soal, index) => {
+                const btn = document.createElement('button');
+                const unlocked = isSoalUnlocked(language, index);
+                const completed = progressData[language] && progressData[language][index];
+                
+                btn.className = 'soal-btn';
+                if (completed) btn.classList.add('completed');
+                if (!unlocked) btn.classList.add('locked');
+                
+                let icon = '';
+                if (completed) {
+                    icon = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                } else if (!unlocked) {
+                    icon = '<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>';
+                }
+                
+                btn.innerHTML = `${icon} ${soal.id}. ${soal.title} <span class="difficulty ${soal.difficulty}">${soal.difficulty}</span>`;
+                
+                btn.onclick = () => {
+                    if (!unlocked) {
+                        showLockModal(soal, index);
+                    } else {
+                        selectSoal(index);
+                    }
+                };
+                
+                soalNav.appendChild(btn);
+            });
+
+            updateProgressBar(language);
+        }
+
+        function updateProgressBar(language) {
+            const completed = getCompletedCount(language);
+            const total = soalDatabase[language].length;
+            const percentage = (completed / total) * 100;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = Math.round(percentage) + '%';
+            document.getElementById('progressText').textContent = `${completed}/${total} selesai`;
+        }
+
+        function resetProgress() {
+            if(confirm(`Yakin mau reset semua progress latihan ${currentLanguage.toUpperCase()}? Nanti kamu harus ngulang dari awal lho.`)) {
+                progressData[currentLanguage] = new Array(soalDatabase[currentLanguage].length).fill(false);
+                saveProgress();
+                loadSoalNav(currentLanguage);
+                selectSoal(0);
+                checkAllCompleted();
+                for(let i=0; i<6; i++) {
+                    localStorage.removeItem(`goprogramz_code_${currentLanguage}_${i}`);
+                }
+            }
+        }
+
+        function showLockModal(soal, index) {
+            const modal = document.getElementById('lockModal');
+            const message = document.getElementById('modalMessage');
+            
+            const prevSoal = soalDatabase[currentLanguage][index - 1];
+            message.innerHTML = `
+                Soal <strong>"${soal.title}"</strong> (${soal.difficulty}) masih terkunci nih!<br><br>
+                Kamu harus nyelesain soal sebelumnya dulu:<br>
+                <strong>"${prevSoal.title}"</strong> (${prevSoal.difficulty})<br><br>
+                Selesain soal itu dulu ya biar kebuka!
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('lockModal').classList.remove('active');
+        }
+
+        document.getElementById('lockModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        function selectSoal(index) {
+            const soal = soalDatabase[currentLanguage][index];
+            currentSoalIndex = index;
+            
+            document.getElementById('soalDeskripsi').innerHTML = `
+                <strong>Soal ${soal.id}: ${soal.title}</strong>
+                <span class="difficulty ${soal.difficulty}">${soal.difficulty}</span>
+                <p style="margin-top: 10px;">${soal.description}</p>
+            `;
+            
+            const contohDiv = document.getElementById('soalContoh');
+            const outputPre = document.getElementById('soalOutput');
+            if (soal.expectedOutput) {
+                contohDiv.style.display = 'block';
+                outputPre.textContent = soal.expectedOutput;
+            } else {
+                contohDiv.style.display = 'none';
+            }
+            
+            loadCurrentCode();
+            
+            const buttons = document.querySelectorAll('.soal-btn');
+            buttons.forEach((btn, idx) => {
+                if (idx === index && !btn.classList.contains('locked')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            resetOutput();
+        }
+
+        function changeLanguage() {
+            currentLanguage = document.getElementById('language').value;
+            
+            if (!progressData[currentLanguage]) {
+                progressData[currentLanguage] = new Array(soalDatabase[currentLanguage].length).fill(false);
+                saveProgress();
+            }
+            
+            loadSoalNav(currentLanguage);
+            selectSoal(0);
+            checkAllCompleted();
+            
+            if (currentLanguage === 'python') {
+                loadPyodideWithRetry();
+            }
+        }
+
+        function resetOutput() {
+            document.getElementById('outputIframe').style.display = 'none';
+            document.getElementById('outputArea').style.display = 'block';
+            document.getElementById('outputArea').innerHTML = '<div style="color: #777; font-style: italic;">Tekan tombol "Jalankan" untuk melihat hasil...</div>';
+        }
+
+        function resetCode() {
+            localStorage.removeItem(`goprogramz_code_${currentLanguage}_${currentSoalIndex}`);
+            loadCurrentCode();
+            resetOutput();
+        }
+
+        async function loadPyodideWithRetry(maxRetries = 2) {
+            if (pyodide || pyodideLoading) return;
+            
+            pyodideLoading = true;
+            const outputDiv = document.getElementById('outputArea');
+            
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    outputDiv.innerHTML = `<div class="loading">⏳ Loading Python interpreter (percobaan ${attempt}/${maxRetries})...</div>`;
+                    
+                    pyodide = await loadPyodide({
+                        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/"
+                    });
+                    
+                    pyodideLoading = false;
+                    return;
+                } catch (error) {
+                    if (attempt === maxRetries) {
+                        pyodideLoading = false;
+                        pyodideLoadFailed = true;
+                        outputDiv.innerHTML = `<div class="error">❌ Gagal memuat Python interpreter.<br><br><button class="btn retry-btn" onclick="retryLoadPyodide()" style="background:#ff9800;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:bold;">🔄 Coba Lagi</button></div>`;
+                    }
+                }
+            }
+        }
+
+        function retryLoadPyodide() {
+            pyodideLoadFailed = false;
+            loadPyodideWithRetry(2);
+        }
+
+        async function runCode() {
+            const code = document.getElementById('codeArea').value;
+            const outputDiv = document.getElementById('outputArea');
+            const outputIframe = document.getElementById('outputIframe');
+            const runBtn = document.getElementById('runBtn');
+            
+            runBtn.disabled = true;
+            outputIframe.style.display = 'none';
+            outputDiv.style.display = 'block';
+            outputDiv.innerHTML = '<div class="loading">⏳ Sedang menjalankan kode...</div>';
+
+            try {
+                if (currentLanguage === 'html') {
+                    outputDiv.style.display = 'none';
+                    outputIframe.style.display = 'block';
+                    outputIframe.srcdoc = code;
+                } else if (currentLanguage === 'python') {
+                    if (pyodideLoadFailed) {
+                        outputDiv.innerHTML = `<div class="error">❌ Python interpreter gagal dimuat.<br><br><button class="btn retry-btn" onclick="retryLoadPyodide()" style="background:#ff9800;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:bold;">🔄 Coba Load Lagi</button></div>`;
+                        return;
+                    }
+                    if (!pyodide) await loadPyodideWithRetry();
+                    
+                    if (pyodide) {
+                        let output = [];
+                        pyodide.setStdout({ batched: (msg) => output.push(msg) });
+                        pyodide.setStderr({ batched: (msg) => output.push("ERROR: " + msg) });
+                        
+                        try {
+                            await pyodide.runPythonAsync(code);
+                            outputDiv.innerHTML = output.length > 0 ? `<div class="output-line">${escapeHtml(output.join('\n'))}</div>` : '<div class="success">✓ Kode berhasil dijalankan (tidak ada output)</div>';
+                        } catch (error) {
+                            outputDiv.innerHTML = `<div class="error">Python Error: ${escapeHtml(error.message)}</div>`;
+                        }
+                    }
+                } else if (currentLanguage === 'javascript') {
+                    let logs = [];
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    
+                    const iframeWindow = iframe.contentWindow;
+                    const originalLog = iframeWindow.console.log;
+                    iframeWindow.console.log = (...args) => logs.push(args.join(' '));
+                    
+                    try {
+                        iframeWindow.eval(code);
+                        iframeWindow.console.log = originalLog;
+                        iframe.remove();
+                        
+                        outputDiv.innerHTML = logs.length > 0 ? logs.map(line => `<div class="output-line">${escapeHtml(line)}</div>`).join('') : '<div class="success">✓ Kode berhasil dijalankan (tidak ada output)</div>';
+                    } catch (error) {
+                        iframeWindow.console.log = originalLog;
+                        iframe.remove();
+                        outputDiv.innerHTML = `<div class="error">JavaScript Error: ${escapeHtml(error.message)}</div>`;
+                    }
+                } else {
+                    const simulatedOutput = simulateExecution(currentLanguage, code);
+                    outputDiv.innerHTML = `<div class="output-line">${escapeHtml(simulatedOutput)}</div>`;
+                }
+            } catch (error) {
+                outputDiv.innerHTML = `<div class="error">Error: ${escapeHtml(error.message)}</div>`;
+            } finally {
+                runBtn.disabled = false;
+            }
+        }
+
+        async function checkAnswer() {
+            const soal = soalDatabase[currentLanguage][currentSoalIndex];
+            const outputDiv = document.getElementById('outputArea');
+            const code = document.getElementById('codeArea').value;
+            
+            outputDiv.innerHTML = '<div class="loading">⏳ Mengecek jawaban...</div>';
+            
+            await runCode();
+            
+            setTimeout(() => {
+                const output = outputDiv.textContent;
+                
+                if (soal.validation(output, code)) {
+                    if (!progressData[currentLanguage]) {
+                        progressData[currentLanguage] = new Array(soalDatabase[currentLanguage].length).fill(false);
+                    }
+                    progressData[currentLanguage][currentSoalIndex] = true;
+                    saveProgress();
+                    
+                    loadSoalNav(currentLanguage);
+                    checkAllCompleted();
+                    
+                    outputDiv.innerHTML = `
+                        <div class="success" style="background-color: #e8f5e9; border-left: 4px solid #4caf50; padding: 15px; border-radius: 4px; text-align: left;">
+                            <div style="font-weight: bold; color: #2e7d32; margin-bottom: 8px;">
+                                ✅ BENAR! Keren banget!
+                            </div>
+                            <div>Soal "${soal.title}" berhasil kamu selesain!</div>
+                            <div style="margin-top: 8px; font-size: 0.9rem; color: #388e3c;">
+                                ${currentSoalIndex < soalDatabase[currentLanguage].length - 1 ? 
+                                    '🔓 Soal selanjutnya udah bisa dibuka!' : 
+                                    '🏆 Wah, kamu udah selesain semua soal!'}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const hintMessage = soal.hint || "Coba periksa lagi sintaks, tanda baca, dan logika kodemu.";
+                    outputDiv.innerHTML = `
+                        <div style="background-color: #fff3e0; border-left: 4px solid #ff9800; padding: 15px; border-radius: 4px; text-align: left;">
+                            <div style="font-weight: bold; color: #e65100; margin-bottom: 10px;">
+                                ❌ BELUM TEPAT
+                            </div>
+                            <div style="margin-bottom: 12px; font-size: 0.9rem;">
+                                <div style="margin-bottom: 5px;"><strong>Output yang diharapkan:</strong> <code style="background:#eee;padding:2px 6px;border-radius:3px;">${escapeHtml(soal.expectedOutput)}</code></div>
+                                <div><strong>Output kamu:</strong> <code style="background:#eee;padding:2px 6px;border-radius:3px;">${escapeHtml(output) || '(kosong)'}</code></div>
+                            </div>
+                            <div style="background-color: #e3f2fd; padding: 12px; border-radius: 6px; color: #0d47a1; font-size: 0.9rem; line-height: 1.4;">
+                                <strong>💡 Hint:</strong> ${hintMessage}
+                            </div>
+                        </div>
+                    `;
+                }
+            }, 500);
+        }
+
+        function simulateExecution(language, code) {
+            const currentSoal = soalDatabase[language][currentSoalIndex];
+            return `=== Simulasi ${language.toUpperCase()} ===\n\nIni adalah mode simulasi untuk ${language}.\nKode kamu sudah diterima dan divalidasi berdasarkan sintaks yang benar.\n\nUntuk menjalankan kode ${language} secara nyata, kamu perlu compiler/server backend.`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        /* =========== 6. SIDEBAR PROFIL =========== */
+  function openSidebar(){
+    document.body.classList.add("sidebar-open");
+  }
+
+  function closeSidebar(){
+    document.body.classList.remove("sidebar-open");
+  }
+
+  document.getElementById("btnOpenSidebar").addEventListener("click", openSidebar);
+  document.getElementById("btnCloseSidebar").addEventListener("click", closeSidebar);
+  document.getElementById("sidebarOverlay").addEventListener("click", closeSidebar);
+
+  // Menu di dalam sidebar (Profil Saya, Pengaturan, Koleksi Saya)
+  // Sekarang masih placeholder — ganti dengan redirect halaman terpisah
+  // kalau halamannya sudah dibuat, contoh: window.location.href = "profil.html";
+  document.querySelectorAll(".sidebar-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      console.log("Menu diklik:", target);
+      // window.location.href = target + ".html";
+    });
+  });
+
+  // Tombol Log out: hapus status login lalu kembali munculkan popup login
+  document.getElementById("btnLogout").addEventListener("click", () => {
+    localStorage.removeItem("isLoggedIn");
+    closeSidebar();
+    showToast("Berhasil logout. Sampai jumpa lagi!");
+    lockDashboard();
+  });
+
+  /* =========== 8. HAPUS AKUN =========== */
+  document.getElementById("btnOpenDeleteAccount").addEventListener("click", () => {
+    closeSidebar();
+    document.getElementById("deleteAccountOverlay").classList.add("show");
+  });
+
+  document.getElementById("btnCancelDelete").addEventListener("click", () => {
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+  });
+
+  document.getElementById("btnConfirmDelete").addEventListener("click", () => {
+    // Hapus semua data akun dari perangkat ini
+    localStorage.removeItem("userFullname");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userUsername");
+    localStorage.removeItem("userHeadline");
+    localStorage.removeItem("userPassword");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("accountRegistered");
+
+    document.getElementById("deleteAccountOverlay").classList.remove("show");
+
+    // Arahkan ke halaman daftar karena akun sudah tidak ada
+    window.location.href = DAFTAR_PAGE_URL;
+  });
+
+    </script>
+
+</body>
+</html>

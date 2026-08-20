@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Tes - GoProgramz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #E2E2E2;
+    --main: #2196F3;
+    --second: #1591DC;
+    --third: #90CAF9;
+    --gradasi: #0F2854;
+    --black: #1E1E1E;
+    --wrong: #BE1A1A;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  body{
+    background: var(--bg);
+    font-family: 'Poppins', sans-serif;
+    color: var(--black);
+  }
+
+  /* ===== Navbar ===== */
+  .navbar{
+    background: var(--main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  }
+
+  .navbar .nav-links{
+    display: flex;
+    gap: 40px;
+  }
+
+  .navbar .nav-links a{
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .navbar .nav-links a:hover{
+    color: var(--gradasi);
+  }
+
+  .navbar .logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.9;
+    color: #fff;
+    cursor: default;
+    user-select: none;
+  }
+
+  .navbar .logo .go{
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-left: 2px;
+  }
+
+  .navbar .logo .programz{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .profile-icon-nav{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .profile-icon-nav svg{ width: 26px; height: 26px; }
+
+  /* ===== Layout ===== */
+  .container{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px 30px 70px;
+    text-align: center;
+  }
+
+  /* ===== Badge "TES SELESAI" ===== */
+  .status-badge{
+    display: inline-block;
+    background: var(--main);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 12px 34px;
+    border-radius: 30px;
+    margin-bottom: 50px;
+  }
+
+  /* ===== Skor section ===== */
+  .score-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    margin-bottom: 44px;
+    text-align: left;
+    flex-wrap: wrap;
+  }
+
+  .score-ring-wrap{
+    position: relative;
+    width: 170px;
+    height: 170px;
+    flex-shrink: 0;
+  }
+
+  .score-ring-wrap svg{
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  #scoreRing{
+    stroke-dasharray: 0 1000;
+    transition: stroke-dasharray 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .score-ring-wrap .score-text{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 34px;
+    color: var(--gradasi);
+  }
+
+  .score-desc{
+    max-width: 420px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--black);
+  }
+
+  /* ===== Kotak Benar / Salah / Total ===== */
+  .result-boxes{
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 46px;
+  }
+
+  .result-box{
+    background: var(--third);
+    border: 2px solid var(--gradasi);
+    border-radius: 14px;
+    min-width: 170px;
+    padding: 18px 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .result-box .label{
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--gradasi);
+    margin-bottom: 4px;
+  }
+
+  .result-box .value{
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--gradasi);
+  }
+
+  /* ===== Progres Achievement badge ===== */
+  .achievement-badge{
+    display: inline-block;
+    background: var(--main);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 14px 40px;
+    border-radius: 30px;
+    margin-bottom: 40px;
+  }
+
+  /* ===== Kartu achievement ===== */
+  .achievement-list{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+
+  .achievement-card{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .achievement-ring-wrap{
+    position: relative;
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+  }
+
+  .achievement-ring-wrap svg{
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .achievement-ring-wrap circle:last-child{
+    stroke-dasharray: 0 1000;
+    transition: stroke-dasharray 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .achievement-ring-wrap .level-text{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--gradasi);
+  }
+
+  .achievement-level-label{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 8px;
+    color: var(--black);
+  }
+
+  .achievement-ring-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .achievement-msg{
+    background: var(--main);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.35;
+    border-radius: 18px;
+    padding: 20px 22px;
+    max-width: 220px;
+  }
+
+  /* ===== Tombol Kembali ===== */
+  .btn-kembali{
+    display: inline-block;
+    background: var(--main);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 14px 48px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .btn-kembali:hover{
+    background: var(--second);
+  }
+
+  @media (max-width: 600px){
+    .navbar{ padding: 14px 16px; }
+    .navbar .nav-links{ gap: 14px; }
+    .navbar .nav-links a{ font-size: 13px; }
+    .score-section{ flex-direction: column; text-align: center; }
+    .score-desc{ text-align: center; }
+    .result-box{ min-width: 130px; }
+  }
+</style>
+</head>
+<body>
+
+
+
+<div class="container">
+
+  <div class="status-badge">TES SELESAI</div>
+
+  <div class="score-section">
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="68" fill="none" stroke="#BE1A1A" stroke-width="16"></circle>
+        <circle id="scoreRing" cx="80" cy="80" r="68" fill="none" stroke="#0F2854" stroke-width="16" stroke-linecap="round"></circle>
+      </svg>
+      <div class="score-text" id="scoreText">0%</div>
+    </div>
+    <p class="score-desc" id="scoreDesc">Memuat hasil tes...</p>
+  </div>
+
+  <div class="result-boxes">
+    <div class="result-box">
+      <div class="label">Benar</div>
+      <div class="value" id="boxBenar">0 Soal</div>
+    </div>
+    <div class="result-box">
+      <div class="label">Salah</div>
+      <div class="value" id="boxSalah">0 Soal</div>
+    </div>
+    <div class="result-box">
+      <div class="label">Total</div>
+      <div class="value" id="boxTotal">0 Soal</div>
+    </div>
+  </div>
+
+  <div class="achievement-badge">Progres Achievement</div>
+
+  <div class="achievement-list" id="achievementList"></div>
+
+  <a class="btn-kembali" href="materi.html">Kembali</a>
+
+</div>
+
+<script>
+  /* ==========================================================
+     DATA HASIL TES
+     Idealnya nilai-nilai ini dikirim dari halaman tes (praktek/tes)
+     lewat localStorage SEBELUM redirect ke halaman ini, contoh di
+     halaman tes:
+
+        localStorage.setItem("testBenar", "13");
+        localStorage.setItem("testSalah", "7");
+        localStorage.setItem("testTotal", "20");
+        window.location.href = "hasil.html";
+
+     Kalau data belum ada (misal halaman ini dibuka langsung),
+     dipakai nilai contoh di bawah sebagai fallback.
+  ========================================================== */
+  const testResult = {
+    benar: parseInt(localStorage.getItem("testBenar")) || 13,
+    salah: parseInt(localStorage.getItem("testSalah")) || 7,
+    total: parseInt(localStorage.getItem("testTotal")) || 20
+  };
+
+  /* ==========================================================
+     DATA PROGRES ACHIEVEMENT
+     Sama seperti di atas, idealnya persen progres tiap level
+     dihitung/disimpan dari sistem achievement kamu.
+     percent = seberapa dekat user ke level itu (0-100).
+  ========================================================== */
+  const achievementProgress = [
+    {
+      level: "I",
+      label: "Master\nUI-UX",
+      percent: 82,
+      message: "Ayo semangat Master, sedikit lagi untuk tahap I"
+    },
+    {
+      level: "II",
+      label: "Master of\nLayout",
+      percent: 45,
+      message: "Ayo Master ayo! Kejarlah gelar tahap III itu!"
+    }
+  ];
+
+  /* =========== RENDER SKOR LINGKARAN UTAMA (dengan animasi) =========== */
+  function renderScoreRing(){
+    const percent = testResult.total > 0
+      ? Math.round((testResult.benar / testResult.total) * 100)
+      : 0;
+
+    const ring = document.getElementById("scoreRing");
+    const radius = 68;
+    const circumference = 2 * Math.PI * radius;
+    const filledLength = (percent / 100) * circumference;
+
+    // mulai dari 0 dulu (kosong), lalu setelah sedikit delay baru
+    // di-set ke nilai asli -> transition CSS yang bikin animasinya jalan
+    ring.setAttribute("stroke-dasharray", `0 ${circumference}`);
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        ring.setAttribute("stroke-dasharray", `${filledLength} ${circumference}`);
+      }, 100);
+    });
+
+    // animasi angka persentase menghitung naik dari 0 ke nilai asli
+    animateNumber(document.getElementById("scoreText"), percent, 1400, "%");
+
+    let desc;
+    if(percent >= 80){
+      desc = "LUAR BIASA!! Kamu berhasil menyelesaikan semua tes dengan hasil yang sangat memuaskan";
+    } else if(percent >= 60){
+      desc = "HEBAT!! Kamu berhasil menyelesaikan semua tes dengan hasil yang cukup baik";
+    } else if(percent >= 40){
+      desc = "Lumayan! Terus berlatih ya biar hasilnya makin baik lagi";
+    } else {
+      desc = "Jangan menyerah! Yuk pelajari lagi materinya dan coba tes ini sekali lagi";
+    }
+    document.getElementById("scoreDesc").textContent = desc;
+  }
+
+  /* =========== HELPER: ANIMASI ANGKA MENGHITUNG NAIK =========== */
+  function animateNumber(el, target, duration, suffix){
+    const start = 0;
+    const startTime = performance.now();
+
+    function tick(now){
+      const progress = Math.min((now - startTime) / duration, 1);
+      // easing biar gerakannya melambat di akhir, bukan lurus/kaku
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (target - start) * eased);
+      el.textContent = current + suffix;
+
+      if(progress < 1){
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* =========== RENDER KOTAK BENAR / SALAH / TOTAL =========== */
+  function renderResultBoxes(){
+    document.getElementById("boxBenar").textContent = testResult.benar + " Soal";
+    document.getElementById("boxSalah").textContent = testResult.salah + " Soal";
+    document.getElementById("boxTotal").textContent = testResult.total + " Soal";
+  }
+
+  /* =========== RENDER PROGRES ACHIEVEMENT =========== */
+  function renderAchievements(){
+    const wrap = document.getElementById("achievementList");
+    wrap.innerHTML = "";
+
+    achievementProgress.forEach(item => {
+      const radius = 34;
+      const circumference = 2 * Math.PI * radius;
+      const filledLength = (item.percent / 100) * circumference;
+
+      const card = document.createElement("div");
+      card.className = "achievement-card";
+      card.innerHTML = `
+        <div class="achievement-ring-col">
+          <div class="achievement-ring-wrap">
+            <svg viewBox="0 0 90 90">
+              <circle cx="45" cy="45" r="${radius}" fill="none" stroke="#c9c9c9" stroke-width="8"></circle>
+              <circle cx="45" cy="45" r="${radius}" fill="none" stroke="#0F2854" stroke-width="8"
+                stroke-linecap="round"
+                stroke-dasharray="0 ${circumference}"
+                stroke-dashoffset="0"></circle>
+            </svg>
+            <div class="level-text">${item.level}</div>
+          </div>
+          <div class="achievement-level-label">${item.label.replace("\n", "<br>")}</div>
+        </div>
+        <div class="achievement-msg">${item.message}</div>
+      `;
+      wrap.appendChild(card);
+
+      // animasi ring achievement dari 0 -> nilai asli, sama seperti ring skor utama
+      const achievementRing = card.querySelector(".achievement-ring-wrap circle:last-child");
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          achievementRing.setAttribute("stroke-dasharray", `${filledLength} ${circumference}`);
+        }, 150);
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderScoreRing();
+    renderResultBoxes();
+    renderAchievements();
+  });
+</script>
+
+</body>
+</html>

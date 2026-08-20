@@ -98,23 +98,31 @@
 </head>
 <body class="font-sans antialiased bg-slate-900 min-h-screen flex flex-col justify-between">
 
-    <!-- TOP NAVIGATION BAR -->
+    <!-- TOP NAVIGATION BAR --
     <header class="w-full bg-[#208cf0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
-            <!-- Left Navigation Links -->
+            <!-- Left Navigation Links --
             <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
                 <a href="index.html" onclick="showNotice('Navigasi ke Beranda')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
                 <a href="#materi" onclick="showNotice('Navigasi ke Materi')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
                 <a href="#praktek" onclick="showNotice('Navigasi ke Praktek')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
             </nav>
 
-            <!-- Center Logo -->
-            <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
-            <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
-        </div>
+            <!-- Brand Logo Center --
+<div
+    id="navLogo"
+    class="absolute left-1/2 -translate-x-1/2 flex items-center cursor-pointer transition-all duration-300"
+    onclick="window.scrollTo({top:0, behavior:'smooth'})"
+>
+    <img
+        src="asset/log/Go-removebg-preview.png"
+        alt="GoProgramz Logo"
+        class="w-[130px] h-[42px] object-contain"
+    >
+</div>
 
-            <!-- Right Register Button -->
+            <!-- Right Register Button --
             <div>
                 <button 
                     type="button" 
@@ -272,7 +280,7 @@
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
 
-            const username = document.getElementById('usernameInput').value.trim();
+            const usernameOrEmail = document.getElementById('usernameInput').value.trim();
             const password = document.getElementById('passwordInput').value.trim();
 
             submitBtn.disabled = true;
@@ -282,15 +290,40 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
 
-                // ===== GANTI VALIDASI DUMMY INI DENGAN CEK KE BACKEND/DATABASE NANTI =====
-                if (username === "" || password === "") {
+                if (usernameOrEmail === "" || password === "") {
                     showNotice('Username/Email dan Password wajib diisi!');
                     return;
                 }
 
-                // Login dianggap berhasil — simpan status & data user
+                // ===== VALIDASI KE DATA YANG TERSIMPAN DARI daftar.html =====
+                // Ini masih validasi sisi client (localStorage), nanti kalau sudah
+                // ada backend/database, ganti bagian ini dengan fetch API ke server.
+                const accountRegistered = localStorage.getItem("accountRegistered") === "true";
+                const savedUsername = localStorage.getItem("userUsername");
+                const savedEmail = localStorage.getItem("userEmail");
+                const savedPassword = localStorage.getItem("userPassword");
+
+                const usernameCocok = (usernameOrEmail === savedUsername) || (usernameOrEmail === savedEmail);
+
+                // Kasus 1: belum pernah daftar sama sekali, atau username/email tidak cocok
+                // -> akun dianggap tidak ditemukan, arahkan ke halaman daftar
+                if (!accountRegistered || !usernameCocok) {
+                    showNotice('Akun tidak ditemukan. Silakan daftar terlebih dahulu.');
+                    setTimeout(() => {
+                        window.location.href = "daftar.html";
+                    }, 1200);
+                    return;
+                }
+
+                // Kasus 2: username/email cocok tapi password salah
+                if (password !== savedPassword) {
+                    showNotice('Password salah. Silakan coba lagi.');
+                    return;
+                }
+
+                // Kasus 3: login berhasil — simpan status & data user
                 localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("userUsername", username);
+                localStorage.setItem("userUsername", savedUsername);
 
                 showNotice('Login Berhasil! Selamat Datang.');
 

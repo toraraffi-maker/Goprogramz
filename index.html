@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     
     <script>
         tailwind.config = {
@@ -74,13 +75,18 @@
             <nav id="navLeft" class="hidden md:flex items-center space-x-6 text-sm font-bold tracking-wider text-slate-700 transition-all duration-300">
                 <a href="#beranda" class="hover:text-brand transition-colors duration-200">BERANDA</a>
                 <a href="materi.html" class="hover:text-brand transition-colors duration-200">MATERI</a>
-                <a href="#praktek" class="hover:text-brand transition-colors duration-200">PRAKTEK</a>
+                <a href="praktek.html" class="hover:text-brand transition-colors duration-200">PRAKTEK</a>
             </nav>
 
             <!-- Brand Logo Center -->
-            <div id="navLogo" class="text-2xl font-black tracking-tight cursor-pointer transition-all duration-300" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <span class="text-sky-400">Go</span><span class="text-sky-600">Programz</span>
+             <div id="navLogo" class="flex items-center cursor-pointer transition-all duration-300"
+             onclick="window.scrollTo({top:0, behavior:'smooth'})">
+             <img 
+             src="asset/log/Go__1_-removebg-preview.png" 
+             alt="GoProgramz Logo"
+             class="w-[1000px] h-[42px] object-contain">
             </div>
+            
 
             <!-- Action Buttons Right (Transforming Daftar & Login into Search Bar on Scroll) -->
             <div id="navRight" class="flex items-center space-x-3 transition-all duration-300">
@@ -104,9 +110,12 @@
                 </div>
 
                 <!-- Profile Icon -->
-                <button onclick="openModal('modalProfile')" class="w-9 h-9 bg-sky-500 rounded-full flex items-center justify-center text-white hover:bg-sky-600 transition-colors shadow-md flex-shrink-0 ml-1" title="Profil Pengguna">
-                    <i class="fa-solid fa-user text-sm"></i>
-                </button>
+                <div class="profile-icon-nav" id="btnOpenSidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+    </svg>
+  </div>
             </div>
         </div>
 
@@ -115,7 +124,7 @@
             <div class="bg-white/90 backdrop-blur-md px-6 py-1.5 rounded-full shadow-md flex space-x-6 text-xs font-bold text-slate-700">
                 <a href="#beranda" class="hover:text-brand">BERANDA</a>
                 <a href="materi.html" class="hover:text-brand">MATERI</a>
-                <a href="#praktek" class="hover:text-brand">PRAKTEK</a>
+                <a href="praktek.html" class="hover:text-brand">PRAKTEK</a>
             </div>
         </div>
     </header>
@@ -265,14 +274,19 @@
     <footer class="bg-gradient-to-b from-sky-400 via-sky-500 to-sky-600 text-white pt-12 pb-8 px-6 sm:px-12 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
             <!-- Footer Logo -->
-            <div class="text-3xl font-black tracking-tight cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
-            </div>
+
+            <div id="navLogo" class="flex items-center cursor-pointer transition-all duration-300"
+                 onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                   <img 
+                      src="asset/log/Go__2_-removebg-preview.png" 
+                      alt="GoProgramz Logo"
+                      class="w-[130px] h-[42px] object-contain">
+             </div>
 
             <!-- Footer Links -->
             <div class="flex items-center space-x-8 text-sm font-bold tracking-wider">
                 <a href="#beranda" class="hover:underline">BERANDA</a>
-                <a href="#materi" class="hover:underline">MATERI</a>
+                <a href="materi.html" class="hover:underline">MATERI</a>
                 <a href="#praktek" class="hover:underline">PRAKTEK</a>
             </div>
         </div>
@@ -310,7 +324,94 @@
         <span id="toastMessage" class="text-sm font-medium"></span>
     </div>
 
-    <script src="js.js">
+
+    
+<!-- Sidebar Profil -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar" id="profileSidebar">
+  <button class="sidebar-close" id="btnCloseSidebar" aria-label="Tutup">&times;</button>
+
+  <div class="sidebar-header">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7.5" r="4"></circle>
+        <path d="M3 21c0-5 4-8.5 9-8.5s9 3.5 9 8.5"></path>
+      </svg>
+    </div>
+    <div class="info">
+      <p id="sbUsername">Hai, Username</p>
+      <p id="sbId">ID User</p>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+    <button class="sidebar-item" data-target="profil-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      <a href="dashboard.html">Profil Saya</a>
+    </button>
+    <button class="sidebar-item" data-target="pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Pengaturan
+    </button>
+    <button class="sidebar-item" data-target="koleksi-saya">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20l9-9-4-4-9 9v4h4z"></path>
+        <path d="M14.5 5.5l4 4"></path>
+      </svg>
+      Koleksi Saya
+    </button>
+    <button class="danger" id="btnOpenDeleteAccount">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+      </svg>
+      Hapus Akun
+    </button>
+  </div>
+
+  <div class="sidebar-logout-wrap">
+    <button id="btnLogout">Log out</button>
+  </div>
+</div>
+<!-- Toast Notifikasi -->
+<div class="toast-notif" id="toastNotif">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M9 12l2 2 4-4"></path>
+  </svg>
+  <span id="toastNotifText">Berhasil logout</span>
+</div>
+
+<!-- Modal Konfirmasi Hapus Akun -->
+<div class="confirm-overlay" id="deleteAccountOverlay">
+  <div class="confirm-modal">
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+        <path d="M10 11v6"></path>
+        <path d="M14 11v6"></path>
+      </svg>
+    </div>
+    <h3>Hapus Akun?</h3>
+    <p>Semua data akun kamu akan dihapus permanen dari perangkat ini dan tidak bisa dikembalikan.</p>
+    <div class="confirm-btn-row">
+      <button id="btnCancelDelete">Batal</button>
+      <button id="btnConfirmDelete">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+<script src="js.js">
     </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </body>
 </html>
