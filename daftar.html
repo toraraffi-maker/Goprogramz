@@ -134,6 +134,17 @@
             <!-- Form -->
             <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-3">
                 
+                <!-- Nama Lengkap Input -->
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="fullnameInput" 
+                        required 
+                        placeholder="Nama Lengkap" 
+                        class="w-full px-4 py-2 custom-input text-slate-950 placeholder-slate-700 font-semibold text-base tracking-normal"
+                    >
+                </div>
+
                 <!-- E-Mail Input -->
                 <div class="relative">
                     <input 
@@ -215,6 +226,9 @@
         function handleRegisterSubmit(event) {
             event.preventDefault();
 
+            const fullname = document.getElementById('fullnameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const username = document.getElementById('usernameInput').value.trim();
             const password = document.getElementById('passwordInput').value;
             const confirmPassword = document.getElementById('confirmPasswordInput').value;
 
@@ -232,8 +246,24 @@
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
-                showNotice('Pendaftaran Berhasil! Silakan Login.');
+
+                // ===== GANTI PROSES DUMMY INI DENGAN SIMPAN KE BACKEND/DATABASE NANTI =====
+                // simpan data user biar bisa dibaca dashboard
+                localStorage.setItem("userFullname", fullname);
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("userUsername", username);
+
+                // pendaftaran dianggap berhasil -> langsung anggap sudah login
+                localStorage.setItem("isLoggedIn", "true");
+
+                showNotice('Pendaftaran Berhasil! Selamat Datang.');
                 document.getElementById('registerForm').reset();
+
+                // Redirect langsung ke dashboard setelah toast sempat muncul sebentar
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 800);
+
             }, 1000);
         }
 
