@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoProgramz - Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Barlow Semi Condensed & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Barlow Semi Condensed"', '"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navBlue: '#208cf0',
+                        cardBg: '#e2e2e2',
+                        inputBg: '#d6d6d6',
+                        inputBorder: '#27272a',
+                        brandBlue: '#2094f3',
+                        brandBlueHover: '#1976d2'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            background-color: #dedede;
+            user-select: none;
+        }
+
+        .question-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for clean aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #dedede;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #208ef0;
+            border-radius: 4px;
+        }
+
+        /* Option box hover and transition styling */
+        .option-btn {
+            background-color: #53a5f2;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-btn:hover {
+            background-color: #4397e6;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.selected {
+            background-color: #0c6cbd !important;
+            box-shadow: inset 0 0 0 2px #ffffff;
+        }
+
+        .option-btn.correct {
+            background-color: #10b981 !important;
+            color: #ffffff;
+        }
+
+        .option-btn.wrong {
+            background-color: #ef4444 !important;
+            color: #ffffff;
+        }
+
+        .logo-text {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+</head>
+<body>
+    <header class="w-full bg-[#208ef0] text-white px-4 sm:px-8 py-2.5 shadow-md z-30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Left Navigation Links -->
+            <nav class="flex items-center space-x-6 sm:space-x-12 text-lg sm:text-xl font-extrabold tracking-wider">
+                <a href="index.html" onclick="showNotice('Navigasi ke BERANDA')" class="hover:text-sky-100 transition-colors uppercase">BERANDA</a>
+                <a href="#materi" onclick="showNotice('Navigasi ke MATERI')" class="hover:text-sky-100 transition-colors uppercase">MATERI</a>
+                <a href="#praktek" onclick="showNotice('Navigasi ke PRAKTEK')" class="hover:text-sky-100 transition-colors uppercase">PRAKTEK</a>
+            </nav>
+
+            <!-- Center Logo -->
+            <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
+            <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
+        </div>
+            <!-- Right Login Button -->
+            
+        </div>
+    </header>
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 py-8 sm:py-10">
+        
+        <!-- Quiz Main Heading -->
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#208ef0] mb-6 sm:mb-8 tracking-wide">
+            Quiz
+        </h1>
+
+        <div class="space-y-8">
+            
+            <!-- QUESTION CARD 1 -->
+            <div class="bg-[#1e8ee8] text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-md transition-all">
+                
+                <!-- Question Statement -->
+                <p class="question-font text-base sm:text-[18px] leading-relaxed font-normal mb-6 text-slate-50">
+                    Seorang desainer merancang antarmuka aplikasi dengan memastikan setiap tombol dan teks memiliki fungsi yang jelas, bukan sekadar hiasan semata. Hal ini sesuai dengan konsep desain grafis yaitu...
+                </p>
+
+                <!-- Options Grid -->
+                <div class="space-y-3.5" id="q1-container">
+                    
+                    <button type="button" onclick="selectOption(1, 'A', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">A. Seni murni untuk kepuasan pribadi perupanya.</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(1, 'B', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none" data-correct="true">
+                        <span class="question-font">B. Alat pemecahan masalah (problem-solving tool) yang fungsional.</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(1, 'C', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">C. Elemen visual untuk mengisi ruang kosong di layar.</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(1, 'D', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">D. Hiasan semata agar tampilan aplikasi terlihat ramai.</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- QUESTION CARD 2 -->
+            <div class="bg-[#1e8ee8] text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-md transition-all">
+                
+                <!-- Question Statement -->
+                <p class="question-font text-base sm:text-[18px] leading-relaxed font-normal mb-6 text-slate-50">
+                    Ketika pengguna kesulitan membaca teks pada aplikasi karena jenis huruf yang terlalu rumit dan ukurannya kecil, elemen visual yang perlu diperbaiki adalah...
+                </p>
+
+                <!-- Options Grid -->
+                <div class="space-y-3.5" id="q2-container">
+                    
+                    <button type="button" onclick="selectOption(2, 'A', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">A. Tata letak (layout)</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(2, 'B', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">B. Skema warna (color palette)</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(2, 'C', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none" data-correct="true">
+                        <span class="question-font">C. Tipografi (typography)</span>
+                    </button>
+
+                    <button type="button" onclick="selectOption(2, 'D', this)" class="option-btn w-full text-left px-5 py-3.5 rounded-xl text-sm sm:text-base font-normal text-white flex items-center justify-between cursor-pointer focus:outline-none">
+                        <span class="question-font">D. Ruang (space)</span>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Submit / Action Footer Bar -->
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/70 backdrop-blur p-5 rounded-2xl shadow-sm border border-slate-200">
+            <div class="text-slate-700 font-semibold text-base">
+                <span id="answered-count">0</span> dari 2 Soal Terjawab
+            </div>
+            <div class="flex items-center space-x-3">
+                <button 
+                    type="button" 
+                    onclick="resetQuiz()" 
+                    class="px-5 py-2 rounded-xl text-slate-700 hover:bg-slate-200 font-bold transition-all text-sm uppercase"
+                >
+                    <i class="fa-solid fa-rotate-right mr-1.5"></i> Reset
+                </button>
+                <button 
+                    type="button" 
+                    onclick="checkAnswers()" 
+                    class="bg-[#208ef0] hover:bg-[#1976d2] text-white px-7 py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all text-base active:scale-95 uppercase tracking-wide"
+                >
+                    Kirim Jawaban
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full py-4 text-center text-xs text-slate-500 border-t border-slate-300 mt-12 bg-slate-100/50">
+        <p>&copy; 2026 GoProgramz. All rights reserved.</p>
+    </footer>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl hidden items-center space-x-3 z-50 border border-slate-700 transition-all">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-sky-400 text-lg"></i>
+        <span id="toastText" class="text-sm font-semibold"></span>
+    </div>
+
+    <script>
+        // Track selected user answers
+        const userAnswers = {
+            1: null,
+            2: null
+        };
+
+        // Handle option selection
+        function selectOption(questionNum, optionKey, element) {
+            const container = document.getElementById(`q${questionNum}-container`);
+            const buttons = container.querySelectorAll('.option-btn');
+
+            // Remove selected class from all buttons in this question
+            buttons.forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'wrong');
+            });
+
+            // Mark current option as selected
+            element.classList.add('selected');
+            userAnswers[questionNum] = optionKey;
+
+            updateAnsweredCount();
+        }
+
+        // Update answered question count
+        function updateAnsweredCount() {
+            let count = 0;
+            if (userAnswers[1]) count++;
+            if (userAnswers[2]) count++;
+
+            document.getElementById('answered-count').innerText = count;
+        }
+
+        // Check answers and highlight correct/wrong
+        function checkAnswers() {
+            if (!userAnswers[1] || !userAnswers[2]) {
+                showToast('Harap jawab semua soal sebelum mengirim!', 'fa-circle-exclamation', 'text-amber-400');
+                return;
+            }
+
+            let score = 0;
+
+            [1, 2].forEach(qNum => {
+                const container = document.getElementById(`q${qNum}-container`);
+                const buttons = container.querySelectorAll('.option-btn');
+
+                buttons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    const isCorrect = btn.getAttribute('data-correct') === 'true';
+
+                    if (isCorrect) {
+                        btn.classList.add('correct');
+                    }
+                });
+
+                // Check if user selected correct
+                const selectedBtn = Array.from(buttons).find(btn => 
+                    btn.innerText.startsWith(userAnswers[qNum])
+                );
+
+                if (selectedBtn) {
+                    const isCorrect = selectedBtn.getAttribute('data-correct') === 'true';
+                    if (isCorrect) {
+                        score++;
+                    } else {
+                        selectedBtn.classList.add('wrong');
+                    }
+                }
+            });
+
+            if (score === 2) {
+                showToast('Selamat! Semua jawaban Anda BENAR! (2/2)', 'fa-circle-check', 'text-emerald-400');
+            } else if (score === 1) {
+                showToast(`Hasil Anda: 1/2 Benar. Semangat mencoba lagi!`, 'fa-circle-info', 'text-sky-400');
+            } else {
+                showToast('Hasil Anda: 0/2. Pelajari lagi materinya!', 'fa-circle-xmark', 'text-rose-400');
+            }
+        }
+
+        // Reset quiz state
+        function resetQuiz() {
+            userAnswers[1] = null;
+            userAnswers[2] = null;
+
+            [1, 2].forEach(qNum => {
+                const container = document.getElementById(`q${qNum}-container`);
+                const buttons = container.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
+                    btn.classList.remove('selected', 'correct', 'wrong');
+                });
+            });
+
+            updateAnsweredCount();
+            showToast('Kuis telah direset.', 'fa-rotate-right', 'text-sky-400');
+        }
+
+        // Show Toast Notice
+        function showToast(message, iconClass = 'fa-circle-info', iconColor = 'text-sky-400') {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastText.innerText = message;
+            toastIcon.className = `fa-solid ${iconClass} ${iconColor} text-lg`;
+
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

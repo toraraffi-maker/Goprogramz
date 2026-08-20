@@ -1,4 +1,6 @@
  // Modal Handlers
+
+ 
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -190,3 +192,20 @@
                 }
             }
         }
+    import { animate, splitText, stagger } from 'animejs';
+
+const { words } = splitText('p', {
+  words: { wrap: 'clip' },
+})
+
+animate(words, {
+  y: [
+    { to: ['100%', '0%'] },
+    { to: '-100%', delay: 750, ease: 'in(3)' }
+  ],
+  duration: 750,
+  ease: 'out(3)',
+  delay: stagger(100),
+  loop: true,
+});
+        
