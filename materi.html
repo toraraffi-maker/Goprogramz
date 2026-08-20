@@ -1,11 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Halaman Materi - GoProgramz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Caveat for Go Logo -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e2e2; /* Neutral grayish background like screenshot */
+            color: #111827;
+        }
+        .bg-brand-blue {
+            background-color: #2196F3;
+        }
+        .text-brand-blue {
+            color: #1591DC;
+        }
+        .font-logo-go {
+            font-family: 'OSWALD', cursive;
+        }
+    </style>
 </head>
-<body>
-    
+<body class="min-h-screen flex flex-col items-center pb-12">
+
+    <!-- Navigation Header -->
+    <header class="w-full bg-brand-blue text-white shadow-sm sticky top-0 z-50">
+        <div class="w-full max-w-7xl mx-auto px-4 md:px-8 py-2.5 flex items-center justify-between">
+            
+            <!-- Left Nav Links -->
+            <nav class="flex items-center space-x-4 md:space-x-8 text-xs md:text-sm font-bold tracking-wider text-white">
+                <a href="index.html" class="hover:opacity-80 transition uppercase">BERANDA</a>
+                <a href="materi.html" class="hover:opacity-80 transition uppercase">MATERI</a>
+                <a href="" class="hover:opacity-80 transition uppercase">PRAKTEK</a>
+            </nav>
+
+            <!-- Center Logo -->
+            <div class="text-2xl sm:text-3xl font-black tracking-tight cursor-pointer">
+            <span class="text-white">Go</span><span class="text-sky-200">Programz</span>
+        </div>
+
+            <!-- Right Action Buttons -->
+            <div class="flex items-center space-x-2 md:space-x-3">
+                <button class="bg-white text-brand-blue px-4 md:px-5 py-1.5 rounded-full text-xs font-bold hover:bg-gray-100 transition uppercase tracking-wider shadow-sm">
+                    DAFTAR
+                </button>
+                <button class="bg-white text-brand-blue px-4 md:px-5 py-1.5 rounded-full text-xs font-bold hover:bg-gray-100 transition uppercase tracking-wider shadow-sm">
+                    LOGIN
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-4xl px-4 md:px-8 py-8 flex flex-col space-y-8">
+
+        <!-- Section 1: Title and Definition -->
+        <section class="space-y-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-brand-blue">
+                Desain Grafis(desain aplikasi)
+            </h1>
+            <div class="space-y-3 text-sm md:text-base text-gray-900 leading-relaxed font-normal">
+                <p>
+                    Desain grafis adalah disiplin ilmu dan seni komunikasi visual yang memadukan elemen teks (tipografi), gambar, bentuk, ruang, dan warna untuk menyampaikan sebuah pesan, informasi, atau ide secara efektif, solutif, dan estetis kepada audiens tertentu.
+                </p>
+                <p>
+                    Desain grafis bukan sekadar seni murni untuk kepuasan pribadi perupanya, melainkan sebuah alat pemecahan masalah (problem-solving tool). Setiap elemen yang diletakkan dalam sebuah desain harus memiliki alasan fungsional di balik aspek estetikanya.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Important Principles Grid -->
+        <section class="space-y-6 pt-2">
+            <h2 class="text-xl md:text-2xl font-bold text-brand-blue text-center leading-tight">
+                Yang perlu diperhatikan<br>ketika mendesain
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div class="bg-brand-blue text-white p-4 rounded-xl flex flex-col items-center justify-center text-center font-bold text-sm md:text-base min-h-[90px] shadow-sm">
+                    <span>Penataan</span>
+                    <span>Layout</span>
+                </div>
+                <div class="bg-brand-blue text-white p-4 rounded-xl flex flex-col items-center justify-center text-center font-bold text-sm md:text-base min-h-[90px] shadow-sm">
+                    <span>UX User</span>
+                    <span>Experience</span>
+                </div>
+                <div class="bg-brand-blue text-white p-4 rounded-xl flex flex-col items-center justify-center text-center font-bold text-sm md:text-base min-h-[90px] shadow-sm">
+                    <span>Tipografi</span>
+                    <span>Yang Jelas</span>
+                </div>
+                <div class="bg-brand-blue text-white p-4 rounded-xl flex flex-col items-center justify-center text-center font-bold text-sm md:text-base min-h-[90px] shadow-sm">
+                    <span>UI User</span>
+                    <span>Interface</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Criteria Details -->
+        <section class="space-y-3 pt-2">
+            <h2 class="text-xl md:text-2xl font-bold text-brand-blue">
+                Penjelasan singkat mengenai kriteria dalam desain grafis
+            </h2>
+            <div class="space-y-3 text-sm md:text-base text-gray-900 leading-relaxed">
+                <p>
+                    Dalam membuat desain grafis ada bebebarapa elemen visual utama yang membentuk sebuah UI (User Interface) diantaranya yaitu:
+                </p>
+                <p>
+                    Tata Letak (layout) & grid cara menyusun dan menata posisi elemen-elemen di layar agar terlihat rapi, seimbang, dan terstruktur.
+                </p>
+                <p>
+                    Skema warna (color palette) pemilihan kombinasi warna untuk membangun identitas produk, memperkuat estetika, dan mempengaruhi psikologi emosi pengguna.
+                </p>
+                <p>
+                    Tipografi (typography) pemilihan jenis huruf (font), ukuran, ketebalan, dan jarak antar teks untuk memastikan tulisan di layar sangat mudah dibaca.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 4: Material Objectives -->
+        <section class="space-y-3 pt-2">
+            <h2 class="text-xl md:text-2xl font-bold text-brand-blue">
+                Tujuan dari materi ini adalah :
+            </h2>
+            <p class="text-sm md:text-base text-gray-900 leading-relaxed">
+                Tujuan utama mempelajari materi desain grafis adalah untuk menguasai kemampuan menyampaikan pesan, ide, atau informasi secara visual agar lebih menarik, jelas, dan mudah dipahami oleh audiens. Meningkatkan estetika dan fungsionalitas menciptakan karya yang tidak hanya indah dipandang tetapi juga memiliki fungsi jelas guna memecahkan masalah komunikasi visual.
+            </p>
+        </section>
+
+        <!-- Section 5: Design Examples -->
+        <section class="space-y-6 pt-2">
+            <h2 class="text-xl md:text-2xl font-bold text-brand-blue">
+                Contoh desain yang sesuai dan yang tidak sesuai :
+            </h2>
+
+              <div class="space-y-3 pt-4">
+                <p class="text-sm md:text-base font-semibold text-gray-900">
+                    Contoh desain yang baik dan sesuai dengan kriteria</p>
+
+                            <img src="desain web yg baik.jpg" alt="Deskripsi gambar">
+                    </div>
+
+                <p class="text-xs md:text-sm text-gray-900 leading-relaxed pt-1">
+                Desain tersebut dianggap baik dan sesuai kriteria karena memiliki tata letak (layout) yang rapi dan terstruktur melalui penggunaan kartu layanan yang seimbang, hirarki tipografi yang jelas sehingga judul dan informasi utama mudah dibaca, serta skema warna profesional dengan kontras yang baik antara latar belakang gelap dan teks terang, sehingga pesan utama dapat tersampaikan kepada pengguna dengan cepat dan efektif.                </p>
+            </div>
+
+            <!-- Bad Design Example -->
+            <div class="space-y-3 pt-4">
+                <p class="text-sm md:text-base font-semibold text-gray-900">
+                    Contoh desain yang buruk dan tidak sesuai dengan kriteria
+                </p>
+                    <img src="desain yang buruk.jpg" alt="Deskripsi gambar">
+            </div>
+
+                <p class="text-xs md:text-sm text-gray-900 leading-relaxed pt-1">
+                    Desain tersebut dianggap kurang sesuai dengan kriteria UI modern karena penggunaan elemen dekoratif seperti rumput, bambu, dan panda yang berlebihan mengalihkan fokus pengguna dari fungsi utamanya. Selain itu, tata letak area kerja (dropzone) menjadi kurang menonjol akibat tertutup latar belakang yang padat, ditambah dengan tipografi serta kontras yang lemah pada teks penjelas di bagian bawah sehingga sulit dipindai dengan cepat.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 6: Quiz Button -->
+        <div class="flex justify-end pt-6 pb-6">
+            <button class="bg-brand-blue text-white font-extrabold px-8 py-3 rounded-full text-sm md:text-base hover:bg-opacity-90 transition uppercase tracking-wider shadow-md">
+                KERJAKAN QUIZ
+            </button>
+        </div>
+
+    </main>
+
 </body>
 </html>
